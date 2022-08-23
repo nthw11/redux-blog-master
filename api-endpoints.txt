@@ -1,0 +1,7 @@
+GET Posts https://parsity-blog-server.herokuapp.com/posts
+
+POST Post https://parsity-blog-server.herokuapp.com/posts
+
+GET Post https://parsity-blog-server.herokuapp.com/:id
+
+DELETE Post https://parsity-blog-server.herokuapp.com/:id

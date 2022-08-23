@@ -1,0 +1,16 @@
+{
+  "posts": [
+    { "title": "Starting 2021 Right", 
+      "categories": ["health"], 
+      "content": "I'm stating 2021 off the right way!"
+    },
+    { "title": "Learn to Code", 
+      "categories": ["career"], 
+      "content": "I'm learning to code!"
+    },
+    { "title": "Get Rich Quick!", 
+      "categories": ["finances"], 
+      "content": "Save your money!"
+    }
+  ]
+}
