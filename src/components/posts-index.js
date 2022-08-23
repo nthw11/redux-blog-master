@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchPosts } from "../actions";
+import _ from 'lodash'
 
 const PostsIndex = () => {
   const posts = useSelector((state) => state.posts);
@@ -12,11 +13,13 @@ const PostsIndex = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetchPosts]);
 
+  console.log(posts)
+
   function renderPosts() {
-    if (posts.length > 0) {
-      return posts.map((post, i) => (
-        <li className="list-group-item" key={post._id}>
-          <Link to={`/posts/${post._id}`}>{post.title}</Link>
+    if (_.isEmpty) {
+      return posts.order.map((postId) => (
+        <li className="list-group-item" key={postId}>
+          <Link to={`/posts/${postId}`}>{posts.entries[postId].title}</Link>
         </li>
       ));
     }

@@ -1,33 +1,40 @@
-import { act } from "react-dom/test-utils";
+import { normalize, schema } from 'normalizr';
 import { FETCH_POSTS, FETCH_POST, DELETE_POST, CREATE_POST } from "../actions";
+import _ from 'lodash';
 
-const postsReducer = function (state = [], action) {
+const postsSchema = new schema.Entity('posts', undefined, {
+  idAttribute: (value) => value._id
+});
+
+const DEFAULT_STATE = {
+  entries: {},
+  order: []
+};
+
+const postsReducer = function(state = DEFAULT_STATE, action) {
   switch (action.type) {
     case FETCH_POSTS:
-      return action.payload.data.map(function (p) {
-        return {
-          title: p.title || "",
-          categories: p.categories || [],
-          content: p.content || "",
-          _id: p._id || "",
-        };
-      });
-    case FETCH_POST:
-      if(state.length > 0){
-        return state.map(function (p){
-          if(p._id === action.payload.data._id){
-            return action.payload.data;
-          } else {
-            return p;
-          }
-        })
-      } else {
-        return [action.payload.data, ...state];
+      const normalizedPosts = normalize(action.payload.data, [postsSchema])
+
+      return {
+        entries: normalizedPosts.entities.posts,
+        order: normalizedPosts.result
       }
+    case FETCH_POST:
+      return {
+        entries: { ...state.entries, [action.payload.data._id]: action.payload.data },
+        order: _.union([...state.order], [action.payload.data._id])
+      };
     case DELETE_POST:
-      return state.filter(post => post._id === action.payload.data)
+      return {
+      entries: _.omit(state.entries, action.payload.data),
+      order: state.order.filter(id => id !== action.payload.data)
+    }
     case CREATE_POST:
-      return [action.payload.data, ...state];
+      return {
+        entries: { ...state.entries, [action.payload.data._id]: action.payload.data },
+        order: _.union([...state.order], [action.payload.data._id])
+      };
     default:
       return state;
   }

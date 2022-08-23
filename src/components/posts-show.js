@@ -12,9 +12,8 @@ const PostsShow = (props) => {
   const dispatch = useDispatch();
 
   const post = useSelector(({ posts }) => {
-    return posts.find((post) => {
-      return post._id === props.match.params.id;
-    });
+    return posts.entries[props.match.params.id]
+
   });
 
   if (!post) {
@@ -22,13 +21,16 @@ const PostsShow = (props) => {
   }
 
   const renderCategories = () => {
-    return post.categories.map((category, i) => {
-      if (post.categories.length - 1 === i) {
-        return <span key={i}>{category}</span>;
-      } else {
-        return <span key={i}>{category}, </span>;
-      }
-    });
+    if (post.categories) {
+
+      return post.categories.map((category, i) => {
+        if (post.categories.length - 1 === i) {
+          return <span key={i}>{category}</span>;
+        } else {
+          return <span key={i}>{category}, </span>;
+        }
+      });
+    }
   };
 
   const onDeleteClick = () => {
