@@ -15,8 +15,8 @@ const PostsIndex = () => {
   function renderPosts() {
     if (posts.length > 0) {
       return posts.map((post, i) => (
-        <li className="list-group-item" key={i}>
-          <Link to={`/posts/${i}`}>{post.title}</Link>
+        <li className="list-group-item" key={post._id}>
+          <Link to={`/posts/${post._id}`}>{post.title}</Link>
         </li>
       ));
     }
